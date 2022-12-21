@@ -9,34 +9,35 @@ body {
     text-align: center;
     height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     background-image: url('./assets/snake-2.gif');
     background-size: cover;
 }
-
+.snake-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #snake-canvas {
     border-radius: 5px;
     box-shadow: 0 0 3px 3px #2d333b;
+    margin-left: 40px;
 }
 .arrow {
     width: 20px;
 }
 .snake-infor {
-    position: fixed;
     border-radius: 5px;
-    width: 300px;
-    height: 400px;
-    top: 110px;
-    left: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     background-color: white;
     box-shadow: 0 0 5px 5px white;
+    padding: 15px;
 }
 .snake-infor-list {
-    margin: 0 auto;
+    margin: 15px auto;
 }
 .snake-infor-item {
     color: white;
@@ -48,7 +49,7 @@ body {
     border-radius: 5px;
 }
 .snake-infor-item+.snake-infor-item{
-    margin-top: 10px;
+    margin-top: 15px;
 }
 span {
     margin-left: 5px;

@@ -1,12 +1,15 @@
-
 // Những thuộc tính chung của snake
-const img = new Image();
-img.src = './assets/snake-head.png';
+const imgSnakeHead = new Image();
+const imgSnakeBody = new Image();
+const imgSnakeFood = new Image();
+imgSnakeHead.src = './assets/snake-head.png';
+imgSnakeBody.src = './assets/snake-body.png';
+imgSnakeFood.src = './assets/snake-food.png'
 var backgroundMain = '#2d333b';
 var fontFamily = "'Times New Roman', Times, serif";
 
 
-var snakeSize = 25; // Độ lớn không gian trò chơi và mỗi ô có width và height là 25px
+var snakeSize = 28; // Độ lớn không gian trò chơi và mỗi ô có width và height là 25px
 var rows = 20; // 20 hàng
 var cols = 20; // 20 cột
 var snakeCanvas; // Biến nhận thẻ canvas từ HTML
@@ -44,16 +47,15 @@ var snake = {
         foodX = Math.floor(Math.random() * cols) * snakeSize;
         foodY = Math.floor(Math.random() * rows) * snakeSize;
     },
-    drawSnake(color, borderColor, x, y, width, height) {
+    drawSnake(color, borderColor, x, y, width, height, img) {
         ctx.lineWidth = 3;
         ctx.strokeStyle = borderColor;
         ctx.fillStyle = color;
         ctx.fillRect(x, y, width, height);
         ctx.strokeRect(x, y, width, height);
-    },
-    drawHeadSnake(color, borderColor, x, y, width, height) {
-        snake.drawSnake(color, borderColor, x, y, width, height);
-        ctx.drawImage(img, x, y, width, height);
+        if(img !== undefined) {
+            ctx.drawImage(img, x, y, width, height);
+        }
     },
     snakeEatFood() {
         if (snakeHeadX == foodX && snakeHeadY == foodY) {
@@ -75,10 +77,9 @@ var snake = {
             snakeBody[0] = [snakeHeadX, snakeHeadY];
         }
     },
-    createBodySnake() {
+    drawBodySnake() {
         for (let i = 0; i < snakeBody.length; i++) {
-            snake.drawSnake('white', backgroundMain, snakeBody[i][0], snakeBody[i][1], snakeSize, snakeSize);
-    
+            snake.drawSnake(backgroundMain, backgroundMain, snakeBody[i][0], snakeBody[i][1], snakeSize, snakeSize, imgSnakeBody);
         }
     },
     changeRoad(roadX, roadY) {
@@ -153,7 +154,7 @@ function update() {
     snake.drawSnake(backgroundMain, backgroundMain, 0, 0, snakeCanvas.width, snakeCanvas.height);
 
     // Tạo thức ăn
-    snake.drawSnake('white', 'backgroundMain', foodX, foodY, snakeSize, snakeSize);
+    snake.drawSnake(backgroundMain, backgroundMain, foodX, foodY, snakeSize, snakeSize, imgSnakeFood);
 
     // Xử lý khi rắn săn được mồi
     snake.snakeEatFood();
@@ -165,10 +166,10 @@ function update() {
     snake.changeRoad(roadX, roadY);
 
     // Tạo đầu rắn sau khi được cập nhật
-    snake.drawHeadSnake(backgroundMain, backgroundMain, snakeHeadX, snakeHeadY, snakeSize, snakeSize);
+    snake.drawSnake(backgroundMain, backgroundMain, snakeHeadX, snakeHeadY, snakeSize, snakeSize, imgSnakeHead);
 
     // Tạo thân rắn 
-    snake.createBodySnake();
+    snake.drawBodySnake();
 
     // Khi đầu gắn chạm tường -> Trò chơi kết thúc
     if (snakeHeadX < 0 || snakeHeadX > cols * snakeSize || snakeHeadY < 0 || snakeHeadY > rows * snakeSize) {
